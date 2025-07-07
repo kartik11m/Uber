@@ -257,74 +257,38 @@ Logs out the authenticated user by blacklisting the JWT token and clearing the c
 
 # Captain Endpoints Documentation
 
-## Register Captain
+
+## Captain Registration
 ### Endpoint
 `POST /captains/register`
 
 ### Description
-Registers a new captain (driver) in the system. Validates all input fields, including vehicle details, and creates a new captain account.
+Registers a new captain (driver) in the system. All fields are required unless otherwise noted.
 
-### Request Body
-The request body must be in JSON format and include the following fields:
-
-```
+### Request Body (JSON)
+```jsonc
 {
   "fullname": {
-    "firstname": "string (min 3 chars, required)",
-    "lastname": "string (min 3 chars, required)"
+    "firstname": "Alice", // string, required, min 3 chars
+    "lastname": "Smith"   // string, required, min 3 chars
   },
-  "email": "string (valid email, required)",
-  "password": "string (min 6 chars, required)",
+  "email": "alice.smith@example.com", // string, required, valid email, unique
+  "password": "strongPassword123",    // string, required, min 6 chars
   "vehicle": {
-    "color": "string (min 3 chars, required)",
-    "plate": "string (min 3 chars, required)",
-    "capacity": "integer (min 1, required)",
-    "vehicleType": "string (one of: car, bike, auto, required)"
+    "color": "Red",         // string, required, min 3 chars
+    "plate": "XYZ1234",     // string, required, min 3 chars
+    "capacity": 4,           // integer, required, min 1
+    "vehicleType": "car"    // string, required, one of: car, bike, auto
   }
 }
 ```
 
-#### Example
-```
+### Success Response (201 Created)
+```jsonc
 {
-  "fullname": {
-    "firstname": "Alice",
-    "lastname": "Smith"
-  },
-  "email": "alice.smith@example.com",
-  "password": "strongPassword123",
-  "vehicle": {
-    "color": "Red",
-    "plate": "XYZ1234",
-    "capacity": 4,
-    "vehicleType": "car"
-  }
-}
-```
-
-### Responses
-```
-captain:{
-  "fullname": {
-    "firstname": "string (min 3 chars, required)",
-    "lastname": "string (min 3 chars, required)"
-  },
-  "email": "string (valid email, required)",
-  "password": "string (min 6 chars, required)",
-  "vehicle": {
-    "color": "string (min 3 chars, required)",
-    "plate": "string (min 3 chars, required)",
-    "capacity": "integer (min 1, required)",
-    "vehicleType": "string (one of: car, bike, auto, required)"
-  },"token": "JWT Token"
-}
-```
-
-#### Success
-- **Status Code:** `201 Created`
-- **Body Example:**
-  ```json
-  {
+  "message": "Captain registered successfully",
+  "token": "<JWT Token>",
+  "captain": {
     "_id": "777777777777777777777777",
     "fullname": {
       "firstname": "Alice",
@@ -338,35 +302,181 @@ captain:{
       "vehicleType": "car"
     }
   }
-  ```
+}
+```
 
-#### Validation Error
-- **Status Code:** `400 Bad Request`
-- **Body Example:**
-  ```json
-  {
-    "errors": [
-      {
-        "msg": "First name must be at least 3 characters long",
-        "param": "fullname.firstname",
-        "location": "body"
-      },
-      {
-        "msg": "Vehicle type must be one of car, bike, or auto",
-        "param": "vehicle.vehicleType",
-        "location": "body"
-      }
-    ]
-  }
-  ```
+### Validation Error (400 Bad Request)
+```jsonc
+{
+  "errors": [
+    {
+      "msg": "First name must be at least 3 characters long", // example error
+      "param": "fullname.firstname",
+      "location": "body"
+    },
+    {
+      "msg": "Vehicle type must be one of car, bike, or auto",
+      "param": "vehicle.vehicleType",
+      "location": "body"
+    }
+  ]
+}
+```
 
-#### Other Errors
-- **Status Code:** `500 Internal Server Error`
-- **Body Example:**
-  ```json
-  {
-    "error": "Failed to create captain: <error message>"
-  }
-  ```
+### Duplicate Email Error (400 Bad Request)
+```jsonc
+{
+  "message": "Captain with this email already exists"
+}
+```
+
+
+### Server Error (500 Internal Server Error)
+```jsonc
+{
+  "error": "Failed to create captain: <error message>"
+}
+```
 
 ---
+
+## Captain Login
+### Endpoint
+`POST /captains/login`
+
+### Description
+Authenticates a captain with email and password. Returns a JWT token and captain data if credentials are valid.
+
+### Request Body (JSON)
+```jsonc
+{
+  "email": "alice.smith@example.com", // string, required, valid email
+  "password": "strongPassword123"     // string, required, min 6 chars
+}
+```
+
+### Success Response (200 OK)
+```jsonc
+{
+  "message": "Logged in successfully",
+  "token": "<JWT Token>",
+  "captain": {
+    "_id": "777777777777777777777777",
+    "fullname": {
+      "firstname": "Alice",
+      "lastname": "Smith"
+    },
+    "email": "alice.smith@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "XYZ1234",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+### Validation Error (400 Bad Request)
+```jsonc
+{
+  "errors": [
+    {
+      "msg": "Invalid Email", // example error
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "Password must be at least 6 characters long",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
+
+### Authentication Error (401 Unauthorized)
+```jsonc
+{
+  "message": "Invalid email or password"
+}
+```
+
+### Server Error (500 Internal Server Error)
+```jsonc
+{
+  "error": "Error message"
+}
+```
+
+---
+
+## Captain Profile
+### Endpoint
+`GET /captains/profile`
+
+### Description
+Returns the authenticated captain's profile information. Requires a valid JWT token (sent as a cookie or in the Authorization header).
+
+### Headers
+- `Authorization: Bearer <jwt_token>` (if not using cookie)
+
+### Success Response (200 OK)
+```jsonc
+{
+  "captain": {
+    "_id": "777777777777777777777777",
+    "fullname": {
+      "firstname": "Alice",
+      "lastname": "Smith"
+    },
+    "email": "alice.smith@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "XYZ1234",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+### Not Found (404 Not Found)
+```jsonc
+{
+  "message": "Captain not found"
+}
+```
+
+### Unauthorized (401 Unauthorized)
+```jsonc
+{
+  "message": "Unauthorized"
+}
+```
+
+---
+
+## Captain Logout
+### Endpoint
+`GET /captains/logout`
+
+### Description
+Logs out the authenticated captain by blacklisting the JWT token and clearing the cookie. Requires a valid JWT token (sent as a cookie or in the Authorization header).
+
+### Headers
+- `Authorization: Bearer <jwt_token>` (if not using cookie)
+
+### Success Response (200 OK)
+```jsonc
+{
+  "message": "Logged out successfully"
+}
+```
+
+### Unauthorized (401 Unauthorized)
+```jsonc
+{
+  "message": "No token provided."
+}
+```
