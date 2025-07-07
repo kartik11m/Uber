@@ -252,7 +252,121 @@ Logs out the authenticated user by blacklisting the JWT token and clearing the c
 
 ---
 
-## Notes
-- The `email` must be unique for registration.
-- The `password` is securely hashed before storage.
-- All endpoints requiring authentication expect a valid JWT token (cookie or Authorization header).
+
+---
+
+# Captain Endpoints Documentation
+
+## Register Captain
+### Endpoint
+`POST /captains/register`
+
+### Description
+Registers a new captain (driver) in the system. Validates all input fields, including vehicle details, and creates a new captain account.
+
+### Request Body
+The request body must be in JSON format and include the following fields:
+
+```
+{
+  "fullname": {
+    "firstname": "string (min 3 chars, required)",
+    "lastname": "string (min 3 chars, required)"
+  },
+  "email": "string (valid email, required)",
+  "password": "string (min 6 chars, required)",
+  "vehicle": {
+    "color": "string (min 3 chars, required)",
+    "plate": "string (min 3 chars, required)",
+    "capacity": "integer (min 1, required)",
+    "vehicleType": "string (one of: car, bike, auto, required)"
+  }
+}
+```
+
+#### Example
+```
+{
+  "fullname": {
+    "firstname": "Alice",
+    "lastname": "Smith"
+  },
+  "email": "alice.smith@example.com",
+  "password": "strongPassword123",
+  "vehicle": {
+    "color": "Red",
+    "plate": "XYZ1234",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+### Responses
+```
+captain:{
+  "fullname": {
+    "firstname": "string (min 3 chars, required)",
+    "lastname": "string (min 3 chars, required)"
+  },
+  "email": "string (valid email, required)",
+  "password": "string (min 6 chars, required)",
+  "vehicle": {
+    "color": "string (min 3 chars, required)",
+    "plate": "string (min 3 chars, required)",
+    "capacity": "integer (min 1, required)",
+    "vehicleType": "string (one of: car, bike, auto, required)"
+  },"token": "JWT Token"
+}
+```
+
+#### Success
+- **Status Code:** `201 Created`
+- **Body Example:**
+  ```json
+  {
+    "_id": "777777777777777777777777",
+    "fullname": {
+      "firstname": "Alice",
+      "lastname": "Smith"
+    },
+    "email": "alice.smith@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "XYZ1234",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+  ```
+
+#### Validation Error
+- **Status Code:** `400 Bad Request`
+- **Body Example:**
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "First name must be at least 3 characters long",
+        "param": "fullname.firstname",
+        "location": "body"
+      },
+      {
+        "msg": "Vehicle type must be one of car, bike, or auto",
+        "param": "vehicle.vehicleType",
+        "location": "body"
+      }
+    ]
+  }
+  ```
+
+#### Other Errors
+- **Status Code:** `500 Internal Server Error`
+- **Body Example:**
+  ```json
+  {
+    "error": "Failed to create captain: <error message>"
+  }
+  ```
+
+---
