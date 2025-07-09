@@ -1,22 +1,43 @@
-import React , {useState} from "react";
+import React , {useState , useContext} from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import  {UserContextData}  from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const UserLogin = () => {
     const [email ,setEmail] = React.useState("");
     const [password ,setPassword] = React.useState("");
     const [userData, setUserData] = React.useState({});
 
-    const submitHandler = (e) => {
+    const navigate = useNavigate();
+    const {user, setUser} = useContext(UserContextData);
+
+    const submitHandler = async (e) => {
         // Handle login logic here
         e.preventDefault(); // Prevent default form submission
-        setUserData({ 
-            email:email, 
-            password:password
-         });
-         console.log("User Data:", userData);
+
+        const userData = {
+            email: email,
+            password: password,
+        };
+
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData);
+
+        if(response.status === 200) {
+            const data = response.data;
+            setUser(data.user);
+            localStorage.setItem("token", data.token);
+            // Redirect to home page after successful login
+            navigate("/home");
+        };
+        // setUserData({ 
+        //     email:email, 
+        //     password:password
+        //  });
+        //  console.log("User Data:", userData);
         // For demonstration, we log the email and password
-        console.log("Email:", email);
-        console.log("Password:", password);
+        // console.log("Email:", email);
+        // console.log("Password:", password);
         setEmail("");
         setPassword("");
         // You can add your authentication logic here, like calling an API

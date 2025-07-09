@@ -1,5 +1,5 @@
 import React , {useState} from "react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 
 const CaptainSignup = () => {
         const [email, setEmail] = useState("");
@@ -8,12 +8,14 @@ const CaptainSignup = () => {
     const [lastName, setLastName] = useState("");
     const [userData, setUserData] = useState({});
 
+    const navigate = useNavigate();
+
     const submitHandler = (e) => {
         e.preventDefault(); // Prevent default form submission
         setUserData({ 
-            fullName:{
-                firstName: firstName,   
-                lastName: lastName,
+            fullname:{
+                firstname: firstName,   
+                lastname: lastName,
             },
             email: email,
             password: password,

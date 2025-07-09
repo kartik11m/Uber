@@ -14,7 +14,7 @@ const UserContext = ({children}) => {
         password: ""
     });
     return(
-        <UserContextData.Provider value={{user}}>
+        <UserContextData.Provider value={{user, setUser}}>
             <div>{children}</div>
         </UserContextData.Provider>
     );
