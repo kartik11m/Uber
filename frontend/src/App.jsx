@@ -8,6 +8,7 @@ import UserLogin from "./pages/UserLogin";
 import UserSignup from "./pages/UserSignup";
 import {UserContextData} from "./context/UserContext";    
 import UserProtectedWrapper from "./pages/UserProtectedWrapper";
+import UserLogout from "./pages/UserLogout";
 
 
 const App = () => {
@@ -25,9 +26,9 @@ const App = () => {
                     <Home />
                 </UserProtectedWrapper>
             }></Route>
-            {/* <Route path="/user/logout" element = {
+            <Route path="/user/logout" element = {
                 <UserLogout></UserLogout>
-                }></Route> */}
+                }></Route>
         </Routes>
     );
 }

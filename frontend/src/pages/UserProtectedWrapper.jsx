@@ -1,4 +1,4 @@
-import React , {useContext} from "react";
+import React , {useContext , useEffect} from "react";
 import { UserContextData } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
@@ -9,10 +9,15 @@ const UserProtectedWrapper = ({ children }) => {
     console.log(token);
 
     // Check if user is logged in
-    if (!token) {
-        // return <div>Please log in to access this page.</div>;
-        navigate("/login"); // Redirect to login page if not logged in
-    }
+    // if (!token) {
+    //     // return <div>Please log in to access this page.</div>;
+    //     navigate("/login"); // Redirect to login page if not logged in
+    // }
+    useEffect(() => {
+        if (!token) {
+            navigate("/login"); // Redirect to login page if not logged in
+        }
+    }, [token, navigate]);
 
     // Render the children components if user is logged in
     return <>{children}</>;
