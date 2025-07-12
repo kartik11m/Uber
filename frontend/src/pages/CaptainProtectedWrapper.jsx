@@ -20,25 +20,26 @@ const CaptainProtectedWrapper = ({ children }) => {
         if (!token) {
             navigate("/Captain-Login"); // Redirect to login page if not logged in
         }
-    }, [token, navigate]);
 
-    axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
+        axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
-    })
-    .then(response => {
-        if (response.status === 200) {
-            setCaptain(response.data.captain); // Set the captain data in context
-            setIsLoading(false); // Set loading to false after fetching data
-        }
-    })
-    .catch(error => {
-        console.error("Error fetching captain profile:", error);
-        localStorage.removeItem("token"); // Remove token if there's an error
-        setIsLoading(false); // Set loading to false even if there's an error
-        navigate("/Captain-Login"); // Redirect to login page if there's an error
-    });
+        })
+        .then(response => {
+            if (response.status === 200) {
+                setCaptain(response.data.captain); // Set the captain data in context
+                setIsLoading(false); // Set loading to false after fetching data
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching captain profile:", error);
+            localStorage.removeItem("token"); // Remove token if there's an error
+            setIsLoading(false); // Set loading to false even if there's an error
+            navigate("/Captain-Login"); // Redirect to login page if there's an error
+        });
+    }, [token, navigate]);
+
 
 
     if (isLoading) {
