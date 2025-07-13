@@ -33,10 +33,10 @@ const CaptainLogin = () => {
         //     email:email, 
         //     password:password
         //  });
-         console.log("Captain Data:", captainData);
+        //  console.log("Captain Data:", captainData);
         // For demonstration, we log the email and password
-        console.log("Email:", email);
-        console.log("Password:", password);
+        // console.log("Email:", email);
+        // console.log("Password:", password);
         setEmail("");
         setPassword("");
         // You can add your authentication logic here, like calling an API
