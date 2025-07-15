@@ -31,13 +31,15 @@ async function getFare(pickup, destination) {
     };
 
     return {
-        car: baseFare.car + (perKmRate.car * distance) + (perMinRate.car * duration),
-        auto: baseFare.auto + (perKmRate.auto * distance) + (perMinRate.auto * duration),
-        bike: baseFare.bike + (perKmRate.bike * distance) + (perMinRate.bike * duration),
+        car: Math.floor(baseFare.car + (perKmRate.car * distance) + (perMinRate.car * duration)),
+        auto: Math.floor(baseFare.auto + (perKmRate.auto * distance) + (perMinRate.auto * duration)),
+        bike: Math.floor(baseFare.bike + (perKmRate.bike * distance) + (perMinRate.bike * duration)),
         distanceValue: distanceTime.distanceValue / 1000,
         durationValue: distanceTime.durationValue / 60
     };
 }
+
+module.exports.getFare = getFare;
 
 function getOtp(num){
     // Use crypto for secure random OTP generation with num digits

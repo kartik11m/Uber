@@ -14,7 +14,7 @@ const VehiclePanel = (props) => {
                         <h5 className="font-medium text-sm">2 mins away</h5>
                         <p className="font-normal text-xs text-gray-600 ">Affordable, compact rides</p>
                     </div>
-                        <h2 className="text-lg font-semibold">₹193.20</h2>
+                        <h2 className="text-lg font-semibold">₹{props.fare.car}</h2>
                 </div>
                 <div onClick={()=>{[props.setConfirmRide(true) , props.setVehiclePanel(false)]}} className="flex active:border-2 border-black rounded-xl bg-gray-100 p-3 w-full items-center justify-between mb-2">
                     <img className="h-12" src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,w_956,h_637/v1649231091/assets/2c/7fa194-c954-49b2-9c6d-a3b8601370f5/original/Uber_Moto_Orange_312x208_pixels_Mobile.png" alt="" />
@@ -23,7 +23,7 @@ const VehiclePanel = (props) => {
                         <h5 className="font-medium text-sm">2 mins away</h5>
                         <p className="font-normal text-xs text-gray-600 ">Affordable, Motorcycle rides</p>
                     </div>
-                        <h2 className="text-lg font-semibold">₹65</h2>
+                        <h2 className="text-lg font-semibold">₹{props.fare.bike}</h2>
                 </div>
                 <div onClick={()=>{[props.setConfirmRide(true) , props.setVehiclePanel(false)]}} className="flex active:border-2 border-black bg-gray-100 rounded-xl p-3 w-full items-center justify-between mb-2">
                     <img className="h-12" src="https://clipart-library.com/2023/Uber_Auto_312x208_pixels_Mobile.png" alt="" />
@@ -32,7 +32,7 @@ const VehiclePanel = (props) => {
                         <h5 className="font-medium text-sm">2 mins away</h5>
                         <p className="font-normal text-xs text-gray-600 ">Affordable, Auto rides</p>
                     </div>
-                        <h2 className="text-lg font-semibold">₹110.25</h2>
+                        <h2 className="text-lg font-semibold">₹{props.fare.auto}</h2>
                 </div>
         </div>
     );

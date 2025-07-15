@@ -27,6 +27,7 @@ const Home = () => {
     const [confirmRide, setConfirmRide] = useState(false);
     const [vehicleFound, setVehicleFound] = useState(false);
     const [waitingForDriver, setWaitingForDriver] = useState(false);
+    const [fare , setFare] = useState({});
 
 
     const submitHandler = (e) => {
@@ -140,10 +141,20 @@ const Home = () => {
             }
           },[waitingForDriver])
 
-          function findTrip(){
+          async function findTrip(){
             setVehiclePanel(true);
             setPanelOpen(false);
+
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`, {
+                params: { pickup, destination: drop },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        setFare(response.data);
+        console.log(response.data); // Should be a valid string
           }
+
 
     return(
         <div className="relative h-screen overflow-hidden">
@@ -207,7 +218,7 @@ const Home = () => {
                 </div>
             </div>
             <div ref={vehiclePanelRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white py-8 px-3">
-                <VehiclePanel setConfirmRide={setConfirmRide} setVehiclePanel={setVehiclePanel}/>
+                <VehiclePanel fare={fare} setConfirmRide={setConfirmRide} setVehiclePanel={setVehiclePanel}/>
             </div>
             <div ref={confirmRideRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white py-6 pt-8">
                 <ConfirmRide setConfirmRide={setConfirmRide} setVehicleFound={setVehicleFound}/>

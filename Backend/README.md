@@ -480,3 +480,74 @@ Logs out the authenticated captain by blacklisting the JWT token and clearing th
   "message": "No token provided."
 }
 ```
+
+## Get Fare
+### Endpoint
+`GET /rides/get-fare`
+
+### Description
+Calculates and returns the estimated fare for a ride between a pickup and destination location for all supported vehicle types. Requires authentication.
+
+### Query Parameters
+- `pickup`: string (required, min 3 chars) — Pickup address
+- `destination`: string (required, min 3 chars) — Destination address
+
+#### Example
+```
+/rides/get-fare?pickup=Phoenix Mall, Indore&destination=Rajwada, Indore
+```
+
+### Headers
+- `Authorization: Bearer <jwt_token>` (if not using cookie)
+
+### Success Response
+- **Status Code:** `200 OK`
+- **Body Example:**
+  ```json
+  {
+    "car": 193.20,
+    "auto": 110.25,
+    "bike": 65.00,
+    "distanceValue": 5.6,
+    "durationValue": 12.0
+  }
+  ```
+  - `car`, `auto`, `bike`: Estimated fare for each vehicle type (number)
+  - `distanceValue`: Distance in kilometers (number)
+  - `durationValue`: Duration in minutes (number)
+
+### Validation Error
+- **Status Code:** `400 Bad Request`
+- **Body Example:**
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Invalid pickup",
+        "param": "pickup",
+        "location": "query"
+      },
+      {
+        "msg": "Invalid destination",
+        "param": "destination",
+        "location": "query"
+      }
+    ]
+  }
+  ```
+
+### Unauthorized
+- **Status Code:** `401 Unauthorized`
+- **Body Example:**
+  ```json
+  {
+    "message": "Access denied. No token provided."
+  }
+  ```
+
+### Server Error
+- **Status Code:** `500 Internal Server Error`
+- **Body Example:**
+  ```json
+  {
+    "message": "Error message"
