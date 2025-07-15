@@ -16,23 +16,23 @@ const ConfirmRide = (props) => {
                 <div className='flex items-center gap-5 p-3 border-b-1'>
                     <i className="ri-map-pin-user-line text-lg"></i>
                     <div>
-                        <h3 className='text-lg font-medium'>Phoenix Mall</h3>
-                        <p className='text-sm -mt-1 text-gray-600'>, Indore</p>
+                        <h3 className='text-lg font-medium'>{props.ride.pickup}</h3>
+                        <p className='text-sm -mt-1 text-gray-600'>Pickup</p>
                     </div>
                 </div>
 
                 <div className='flex items-center gap-5 p-3 border-b-1'>
                     <i className="ri-map-pin-3-line text-lg"></i>
                     <div>
-                        <h3 className='text-lg font-medium'>Phoenix Mall</h3>
-                        <p className='text-sm -mt-1 text-gray-600'>, Indore</p>
+                        <h3 className='text-lg font-medium'>{props.ride.destination}</h3>
+                        <p className='text-sm -mt-1 text-gray-600'>Destination</p>
                     </div>
                 </div>
                 
                 <div className='flex items-center gap-5 p-3 mb-2'>
                     <i className="ri-cash-line text-lg"></i>
                     <div>
-                        <h3 className='text-lg font-medium'>₹193.20</h3>
+                        <h3 className='text-lg font-medium'>₹{props.ride.fare}</h3>
                         <p className='text-sm -mt-1 text-gray-600'>Cash</p>
                     </div>
                 </div>
