@@ -1,4 +1,4 @@
-import React,{use, useState} from "react";
+import React,{use, useContext, useEffect, useState} from "react";
 import {gsap} from "gsap";
 import {useGSAP} from "@gsap/react"
 import 'remixicon/fonts/remixicon.css'
@@ -8,6 +8,8 @@ import ConfirmRide from "../components/ConfirmRide";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingforDriver";
 import axios from "axios";
+import { SocketContextData } from "../context/SocketContext";
+import { UserContextData } from "../context/UserContext";
 
 const Home = () => {
 
@@ -29,6 +31,14 @@ const Home = () => {
     const [waitingForDriver, setWaitingForDriver] = useState(false);
     const [fare , setFare] = useState({});
     const [ride , setRide] = useState({});
+
+    const {socket,sendMessage , receiveMessage} = useContext(SocketContextData);
+    const {user} = useContext(UserContextData);
+
+    useEffect(() => {
+        // console.log(user);
+        socket.emit("join" , {userType: "user" , userId: user._id});
+    },[user,socket]);
 
 
     const submitHandler = (e) => {

@@ -29,7 +29,7 @@ const UserProtectedWrapper = ({ children }) => {
     })
     .then(response => {
         if (response.status === 200) {
-            setUser(response.data.user); // Set the user data in context
+            setUser(response.data); // Set the user data in context
             setIsLoading(false); // Set loading to false after fetching data // Set the user data in context
         }
     })
