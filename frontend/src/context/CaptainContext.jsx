@@ -6,9 +6,9 @@ export const CaptainContextData = createContext();
 const CaptainContext = ({children}) => {
 
     const [captain, setCaptain] = React.useState({
-        fullName: {
-            firstName: "",
-            lastName: ""
+        fullname: {
+            firstname: "",
+            lastname: ""
         },
         email: "",
         password: "",

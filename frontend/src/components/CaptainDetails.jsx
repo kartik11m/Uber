@@ -1,12 +1,19 @@
-import React from "react"
+import React,{useContext} from "react"
+import CaptainContext, { CaptainContextData } from "../context/CaptainContext";
 
 const CaptainDetails = () =>{
+
+    const {captain} = useContext(CaptainContextData);
+
+        const firstName = captain?.fullname?.firstname || "Captain";
+
     return(
+
         <div>
             <div className="flex items-center justify-between">
                     <div className="flex items-center justify-start gap-3">
                         <img className="h-10 w-10 rounded-full object-cover" src="https://people.com/thmb/Nw5vsnuK4VLLWxiW6HB0fN0INWw=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(749x0:751x2)/johnny-depp-81-070825-2e7dc9b2d3444948a03a968b044b038a.jpg" alt="" />
-                        <h4 className="text-lg font-medium">Harsh Patel</h4>
+                        <h4 className="text-lg font-medium">{captain.fullname.firstname + " " + captain.fullname.lastname}</h4>
                     </div>
                     <div>
                         <h4 className="text-xl font-semibold">₹295.20</h4>
