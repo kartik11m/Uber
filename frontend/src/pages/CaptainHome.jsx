@@ -1,17 +1,25 @@
-import React , {useState , useRef} from "react";
+import React , {useState , useRef , useEffect , useContext} from "react";
 import { Link } from "react-router-dom";
 import RidePopUp from "../components/RidePopUp";
 import {gsap} from "gsap";
 import {useGSAP} from "@gsap/react"
 import CaptainDetails from "../components/CaptainDetails"
 import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
-
+import { SocketContextData } from "../context/SocketContext";
+import { CaptainContextData } from "../context/CaptainContext";
 
 const CaptainHome = () => {
     const [ridePopupPanel , setRidePopupPanel] = useState(true);
     const [confirmRidePopUpPanel , setConfirmRidePopupPanel] = useState(false);
     const ridePopupPanelRef = React.useRef(null);
     const confirmRidePopupPanelRef = React.useRef(null);
+
+    const {socket} = useContext(SocketContextData);
+    const {captain} = useContext(CaptainContextData);
+
+    useEffect(() =>{
+        socket.emit('join',{userId: captain._id , userType: 'captain'});
+    },[captain , socket]);
 
     useGSAP(function(){
             if(ridePopupPanel){
