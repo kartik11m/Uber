@@ -31,6 +31,7 @@ const Home = () => {
     const [waitingForDriver, setWaitingForDriver] = useState(false);
     const [fare , setFare] = useState({});
     const [ride , setRide] = useState({});
+    const [rideCaptain , setRideCaptain] = useState(null);
 
     const {socket,sendMessage , receiveMessage} = useContext(SocketContextData);
     const {user} = useContext(UserContextData);
@@ -39,6 +40,12 @@ const Home = () => {
         // console.log(user);
         socket.emit("join" , {userType: "user" , userId: user._id});
     },[user,socket]);
+
+    socket.on('ride-confirmed', ride =>{
+        setRideCaptain(ride);
+        setVehiclePanel(false);
+        setWaitingForDriver(true);
+    })
 
 
     const submitHandler = (e) => {
@@ -178,7 +185,7 @@ const Home = () => {
             })
 
             setRide(response.data);
-            console.log(response.data)
+            // console.log(response.data)
         }
 
     return(
@@ -252,7 +259,7 @@ const Home = () => {
             <LookingForDriver setVehicleFound={setVehicleFound} setVehiclePanel={setVehiclePanel} ride={ride}/>
             </div>
             <div ref={WaitingforDriverRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white py-6 pt-8">
-                <WaitingForDriver setWaitingForDriver={setWaitingForDriver} setVehicleFound={setVehicleFound} />
+                <WaitingForDriver setWaitingForDriver={setWaitingForDriver} setVehicleFound={setVehicleFound} rideCaptain={rideCaptain}/>
             </div>
         </div>
     );
