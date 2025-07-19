@@ -78,3 +78,18 @@ module.exports.confirmRide = async (req , res) =>{
         return res.status(500).json({message: err.message});
     }
 }
+
+module.exports.startRide = async (req,res) =>{
+    try{
+        const {rideId , otp } = req.query;
+        const ride = await rideService.startRide({ rideId ,otp,captain:req.captain});
+        sendMessageToSocketid(ride.user.socketId,{
+            event: 'ride-started',
+            data: ride
+        })
+
+        return res.status(200).json(ride);
+    }catch(err){
+        return res.status(500).json({message: err.message});
+    }
+}
