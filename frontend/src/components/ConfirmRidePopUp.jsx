@@ -1,14 +1,31 @@
 import React,{useState} from "react";
 import {Link} from "react-router-dom";
+import axios from "axios"
+import { useNavigate } from "react-router-dom";
 
 const ConfirmRidePopUp = (props) =>{
 
     const [otp , setOtp] = useState("");
+    const navigate = useNavigate();
 
-    const submitHandler = (e) =>{
+    const submitHandler = async (e) =>{
         e.preventDefault();
 
-        
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride` ,{
+            params :{
+                rideId : props.ride._id,
+                otp: otp,
+            },
+             headers : {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+        })
+
+        if(response.status === 200){
+            props.setConfirmRidePopupPanel(false);
+            props.setRidePopupPanel(false);
+            navigate('/captain-riding');
+        }
     };
 
     return(
@@ -22,7 +39,7 @@ const ConfirmRidePopUp = (props) =>{
             <div className="flex items-center justify-between p-3 bg-yellow-400 rounded-lg mt-4">
                 <div className="flex items-center gap-3">
                     <img className="h-15 w-15 rounded-full object-cover" src="https://people.com/thmb/Nw5vsnuK4VLLWxiW6HB0fN0INWw=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(749x0:751x2)/johnny-depp-81-070825-2e7dc9b2d3444948a03a968b044b038a.jpg" alt="" />
-                    <h2 className="text-xl font-medium capitalize">{props.ride?.fullname.firstname + " " + props.ride?.fullname.lastname}</h2>
+                    <h2 className="text-xl font-medium capitalize">{props.ride?.user.fullname.firstname + " " + props.ride?.user.fullname.lastname}</h2>
                 </div>
                 <h5 className="text-lg font-semibold">{props.ride?.distance} Km</h5>
             </div>
@@ -56,12 +73,11 @@ const ConfirmRidePopUp = (props) =>{
             </div>
         
             <div className="mt-6 w-full p-3 ">
-                <form onSubmit={(e) => {
-                    submitHandler(e)
-                }}>
+                <form onSubmit= {submitHandler}>
                     <input value={otp} onChange={(e) => {setOtp(e.target.value)}} className="bg-[#eee] px-6 py-4 text-base rounded-lg w-full mt-5 font-mono" type="text" placeholder="Enter OTP"/>
                     <button
                     className='w-full tetx-lg flex justify-center mt-4 bg-green-600 text-white font-semibold p-3 rounded-lg'>Confirm</button>
+                    
                     <button 
                     onClick={() =>[props.setConfirmRidePopupPanel(false) , props.setRidePopupPanel(false)]}
                     className='w-full text-lg mt-2 bg-red-600 text-white font-semibold p-3 rounded-lg'>Cancel</button>
