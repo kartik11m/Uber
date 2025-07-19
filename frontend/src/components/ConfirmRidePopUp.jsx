@@ -7,6 +7,8 @@ const ConfirmRidePopUp = (props) =>{
 
     const submitHandler = (e) =>{
         e.preventDefault();
+
+        
     };
 
     return(
@@ -20,9 +22,9 @@ const ConfirmRidePopUp = (props) =>{
             <div className="flex items-center justify-between p-3 bg-yellow-400 rounded-lg mt-4">
                 <div className="flex items-center gap-3">
                     <img className="h-15 w-15 rounded-full object-cover" src="https://people.com/thmb/Nw5vsnuK4VLLWxiW6HB0fN0INWw=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(749x0:751x2)/johnny-depp-81-070825-2e7dc9b2d3444948a03a968b044b038a.jpg" alt="" />
-                    <h2 className="text-xl font-medium">Harsh Patel</h2>
+                    <h2 className="text-xl font-medium capitalize">{props.ride?.fullname.firstname + " " + props.ride?.fullname.lastname}</h2>
                 </div>
-                <h5 className="text-lg font-semibold">2.2 Km</h5>
+                <h5 className="text-lg font-semibold">{props.ride?.distance} Km</h5>
             </div>
             <div className='flex justify-between  gap-2 flex-col items-center'>
             </div>
@@ -30,23 +32,23 @@ const ConfirmRidePopUp = (props) =>{
                 <div className='flex items-center gap-5 p-3 border-b-1'>
                     <i className="ri-map-pin-user-line text-lg"></i>
                     <div>
-                        <h3 className='text-lg font-medium'>Phoenix Mall</h3>
-                        <p className='text-sm -mt-1 text-gray-600'>, Indore</p>
+                        <h3 className='text-lg font-medium'>{props.ride?.pickup}</h3>
+                        <p className='text-sm -mt-1 text-gray-600'>pickup</p>
                     </div>
                 </div>
 
                 <div className='flex items-center gap-5 p-3 border-b-1'>
                     <i className="ri-map-pin-3-line text-lg"></i>
                     <div>
-                        <h3 className='text-lg font-medium'>Phoenix Mall</h3>
-                        <p className='text-sm -mt-1 text-gray-600'>, Indore</p>
+                        <h3 className='text-lg font-medium'>{props.ride?.destination}</h3>
+                        <p className='text-sm -mt-1 text-gray-600'>destination</p>
                     </div>
                 </div>
                 
                 <div className='flex items-center gap-5 p-3 mb-2'>
                     <i className="ri-cash-line text-lg"></i>
                     <div>
-                        <h3 className='text-lg font-medium'>₹193.20</h3>
+                        <h3 className='text-lg font-medium'>₹{props.ride?.fare}</h3>
                         <p className='text-sm -mt-1 text-gray-600'>Cash</p>
                     </div>
                 </div>
@@ -58,8 +60,8 @@ const ConfirmRidePopUp = (props) =>{
                     submitHandler(e)
                 }}>
                     <input value={otp} onChange={(e) => {setOtp(e.target.value)}} className="bg-[#eee] px-6 py-4 text-base rounded-lg w-full mt-5 font-mono" type="text" placeholder="Enter OTP"/>
-                    <Link to="/captain-riding"
-                    className='w-full tetx-lg flex justify-center mt-4 bg-green-600 text-white font-semibold p-3 rounded-lg'>Confirm</Link>
+                    <button
+                    className='w-full tetx-lg flex justify-center mt-4 bg-green-600 text-white font-semibold p-3 rounded-lg'>Confirm</button>
                     <button 
                     onClick={() =>[props.setConfirmRidePopupPanel(false) , props.setRidePopupPanel(false)]}
                     className='w-full text-lg mt-2 bg-red-600 text-white font-semibold p-3 rounded-lg'>Cancel</button>
