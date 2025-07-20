@@ -2,6 +2,7 @@ import React,{useEffect , useContext} from "react";
 import { Link,useLocation } from "react-router-dom";
 import { SocketContextData } from "../context/SocketContext";
 import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 
 const Riding = () => {
     const location = useLocation();
@@ -19,7 +20,7 @@ const Riding = () => {
                 <i className="text-lg font-medium ri-home-2-line"></i>
             </Link>
             <div className="h-1/2">
-                <img className="h-full w-screen object-cover" src="https://cdn.theatlantic.com/thumbor/BlEOtTo9L9mjMLuyCcjG3xYr4qE=/0x48:1231x740/960x540/media/img/mt/2017/04/IMG_7105/original.png" alt="" />
+                <LiveTracking/>
             </div>
 
             <div className="h-1/2 p-4">

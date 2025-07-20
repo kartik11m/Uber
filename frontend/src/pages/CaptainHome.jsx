@@ -8,6 +8,7 @@ import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
 import { SocketContextData } from "../context/SocketContext";
 import { CaptainContextData } from "../context/CaptainContext";
 import axios from "axios"
+import LiveTracking from "../components/LiveTracking";
 
 const CaptainHome = () => {
     const [ridePopupPanel , setRidePopupPanel] = useState(false);
@@ -92,14 +93,14 @@ const CaptainHome = () => {
 
     return(
         <div className="h-screen">
-            <div className="fixed p-6 top-0 flex items-center justify-between w-screen">
+            <div className="fixed p-6 -top-3 flex items-center justify-between w-screen bg-gray-100">
                 <img className="w-16" src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
                 <Link to="/home" className="h-10 w-10 bg-white flex items-center justify-center rounded-full">
                     <i className="ri-logout-box-r-line"></i>
                 </Link>
             </div>
-            <div className="h-3/5">
-                <img className="h-full w-screen object-cover" src="https://cdn.theatlantic.com/thumbor/BlEOtTo9L9mjMLuyCcjG3xYr4qE=/0x48:1231x740/960x540/media/img/mt/2017/04/IMG_7105/original.png" alt="" />
+            <div className="h-3/5 mt-15">
+                <LiveTracking/>
             </div>
 
             <div className="h-2/5  p-6">

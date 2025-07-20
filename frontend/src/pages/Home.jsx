@@ -11,6 +11,7 @@ import axios from "axios";
 import { SocketContextData } from "../context/SocketContext";
 import { UserContextData } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 
 const Home = () => {
 
@@ -196,30 +197,31 @@ const Home = () => {
         }
 
     return(
-        <div className="relative h-screen overflow-hidden">
-            <img className="w-16 absolute left-5 top-5" src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
-            <div>
+        <div className=" h-screen relative overflow-hidden">
+                <img className="w-16 absolute left-5 top-5" src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
+            <div className="h-screen mt-13">
                 {/* temporary image */}
-                <img className="h-150 w-screen object-cover" src="https://cdn.theatlantic.com/thumbor/BlEOtTo9L9mjMLuyCcjG3xYr4qE=/0x48:1231x740/960x540/media/img/mt/2017/04/IMG_7105/original.png" alt="" />
+                {/* <img className="h-150 w-screen object-cover" src="https://cdn.theatlantic.com/thumbor/BlEOtTo9L9mjMLuyCcjG3xYr4qE=/0x48:1231x740/960x540/media/img/mt/2017/04/IMG_7105/original.png" alt="" /> */}
+                <LiveTracking/>
             </div>
-            <div className="flex flex-col justify-end absolute top-0 w-full h-screen">
+            <div className="flex flex-col justify-end absolute -top-2 w-full h-screen pointer-events-none">
                 <div className="h-[30%] bg-white p-6 relative">
                     <h5 
                     ref={panelCloseRef}
                     onClick={() => setPanelOpen(false)}
-                    className="absolute top-6 right-6 text-2xl opacity-0">
+                    className="absolute top-6 right-6 text-2xl opacity-0 pointer-events-auto">
                         <i className="ri-arrow-down-wide-line"></i>
                     </h5>
-                    <h4 className="text-2xl font-semibold">Find a trip</h4>
+                    <h4 className="text-2xl font-semibold pointer-events-auto">Find a trip</h4>
                     <form onSubmit={(e) => {
                         submitHandler(e);
                 }}>
-                        <div className="line absolute h-16 w-1 top-[40%] left-8 bg-gray-900 rounded-full"></div>
+                        <div className="line absolute h-16 w-1 top-[40%] left-8 bg-gray-900 rounded-full pointer-events-auto"></div>
                         <input 
                         onClick={() => { setPanelOpen(true); setActiveField('pickup'); }}
                         value={pickup}
                         onChange={(e) => { setPickup(e.target.value); setActiveField('pickup'); setPanelOpen(true); }}
-                        className="bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-5"
+                        className="bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-5 pointer-events-auto"
                         type="text"
                         placeholder="Add a pickup location"
                         autoComplete="off"
@@ -228,7 +230,7 @@ const Home = () => {
                         onClick={() => { setPanelOpen(true); setActiveField('drop'); }}
                         value={drop}
                         onChange={(e) => { setDrop(e.target.value); setActiveField('drop'); setPanelOpen(true); }}
-                        className="bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-3"
+                        className="bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-3 pointer-events-auto"
                         type="text"
                         placeholder="Add a drop location"
                         autoComplete="off"
@@ -236,11 +238,11 @@ const Home = () => {
                     </form>
                     <button 
                     onClick={findTrip}
-                    className="bg-black text-white px-4 py-2 rounded-lg mt-5 w-full">
+                    className="bg-black text-white px-4 py-2 rounded-lg mt-5 w-full pointer-events-auto">
                         Find Trip
                     </button>
                 </div>
-                <div ref={panelRef} className=" bg-white h-0">
+                <div ref={panelRef} className=" bg-white h-0 pointer-events-auto">
                     <LocationSearchPanel
                         suggestions={suggestions}
                         loading={loadingSuggestions}
