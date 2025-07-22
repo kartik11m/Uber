@@ -12,6 +12,7 @@ import { SocketContextData } from "../context/SocketContext";
 import { UserContextData } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import LiveTracking from "../components/LiveTracking";
+import {Link} from "react-router-dom"
 
 const Home = () => {
 
@@ -198,7 +199,12 @@ const Home = () => {
 
     return(
         <div className=" h-screen relative overflow-hidden">
-                <img className="w-16 absolute left-5 top-5" src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
+                <div className="fixed p-6 -top-3 flex items-center justify-between w-screen bg-gray-100">
+                <img className="w-16" src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
+                <Link to="/user/logout" className="h-10 w-10 bg-white flex items-center justify-center rounded-full">
+                    <i className="ri-logout-box-r-line"></i>
+                </Link>
+                </div>
             <div className="h-screen mt-13">
                 {/* temporary image */}
                 {/* <img className="h-150 w-screen object-cover" src="https://cdn.theatlantic.com/thumbor/BlEOtTo9L9mjMLuyCcjG3xYr4qE=/0x48:1231x740/960x540/media/img/mt/2017/04/IMG_7105/original.png" alt="" /> */}
