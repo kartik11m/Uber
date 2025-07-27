@@ -3,6 +3,7 @@ const captainModel = require('../models/captain.model');
 
 module.exports.getAddressCoordinate = async (address) => {
     const apiKey = process.env.GOOGlE_MAPS_API;
+     console.log("Google Maps API Key:", apiKey);
     const endpoint = 'https://maps.googleapis.com/maps/api/geocode/json';
 
     const response = await axios.get(endpoint, {
