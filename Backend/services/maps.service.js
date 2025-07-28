@@ -3,7 +3,6 @@ const captainModel = require('../models/captain.model');
 
 module.exports.getAddressCoordinate = async (address) => {
     const apiKey = process.env.GOOGlE_MAPS_API;
-     console.log("Google Maps API Key:", apiKey);
     const endpoint = 'https://maps.googleapis.com/maps/api/geocode/json';
 
     const response = await axios.get(endpoint, {
@@ -30,7 +29,7 @@ module.exports.getDistanceTime = async (origin, destination) => {
         throw new Error('Origin and destination are required');
     }
 
-    const apiKey = process.env.GOOGLE_MAPS_API; // Use the correct env variable name
+    const apiKey = process.env.GOOGlE_MAPS_API; // Use the correct env variable name
     const url = "https://maps.googleapis.com/maps/api/distancematrix/json";
 
     try {
@@ -67,7 +66,7 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
     if(!input){
         throw new Error("query is required");
     }
-    const apiKey = process.env.GOOGLE_MAPS_API;
+    const apiKey = process.env.GOOGlE_MAPS_API;
     const endpoint = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
 
     try {
